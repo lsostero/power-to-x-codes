@@ -1,3 +1,6 @@
+%the following code simulate the operations of an ammonia powered engine, for insert the market DAM prices use the file 
+% X ECONOMIC ANALISIS AND PROJECT import the third column as a column vector an name it 'el_dailycost'
+
 % daily data
 %timeseries =[timeseries];  % day in the year
 year_selected = 2023;
