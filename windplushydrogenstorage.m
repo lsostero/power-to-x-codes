@@ -1,6 +1,7 @@
-%the following code simulate the operations of an green ammonia synthesis process using a wind farm and hydrogen storage, since the sythesis process is powered by the grid
-%the electricity average price can be selected or imported. To import use the third column of X ECONOMIC ANALISIS AND PROJECT importing it as a column vector 
-%name the imported data as el_dailycost
+%the following code simulate the operations of an green ammonia synthesis process using a wind farm and hydrogen storage, 
+%the wind speed timeseries and relative power of the wind turbine must been imported
+%open windspeed.xlsx and select the first column, import it as column vector and assign the name WS1
+%open windspeed.xlsx and select the third column, import it as column vector and assign the name P_out
 %% Wind Speed Nominal Interval Definition
 wind_speed_nominal = 0:0.5:25; % Wind speed bins from 0 to 25 m/s in 0.5 m/s steps
 figure(99)
