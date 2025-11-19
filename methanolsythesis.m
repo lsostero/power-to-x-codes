@@ -1,3 +1,6 @@
+%the following code simulate the operations of an methanol synthesis process, since the sythesis process is powered by the grid
+%the electricity average price can be selected or imported. To import use the third column of X ECONOMIC ANALISIS AND PROJECT importing it as a column vector 
+%name the imported data as el_dailycost
 m_meOH=5000; %ton/y size methanol sinthesis process
 EXM_MEOH=4000; % ton/y example power plant of reference 
 EXCOST=1230;%keur CAPEX methanol synthesis reactor
