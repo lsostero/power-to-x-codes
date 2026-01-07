@@ -1,7 +1,6 @@
 %the following code simulate the operations of an green ammonia synthesis process using a wind farm and hydrogen storage, 
-%the wind speed timeseries and relative power of the wind turbine must been imported
-%open windspeed.xlsx and select the first column, import it as column vector and assign the name WS1
-%open windspeed.xlsx and select the third column, import it as column vector and assign the name P_out
+%the wind speed timeseries and relative power of the wind turbine are imported automatically
+
 %% Wind Speed Nominal Interval Definition
 
 wind_speed_nominal = 0:0.5:25; % From 3 to 25 m/s in 0.5 m/s step
@@ -23,7 +22,7 @@ if WS_mapped > max(wind_speed_nominal)
 
 end
 %% Time Series Setup 
-year_selected = 2020;
+year_selected = 2022;
 start_time = datetime(year_selected, 1, 1, 0, 0, 0);
 end_time = datetime(year_selected, 12, 31, 23, 0, 0); % Ensure it matches hourly resolution
 timeseries1 = start_time:hours(1):end_time; % 1-hour time steps
