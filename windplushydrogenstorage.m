@@ -1,28 +1,33 @@
 %the following code simulate the operations of an green ammonia synthesis process using a wind farm and hydrogen storage, 
-%the wind speed timeseries and relative power of the wind turbine must been imported
-%open windspeed.xlsx and select the first column, import it as column vector and assign the name WS1
-%open windspeed.xlsx and select the third column, import it as column vector and assign the name P_out
+%the wind speed timeseries and relative power of the wind turbine are imported automatically
+
 %% Wind Speed Nominal Interval Definition
 wind_speed_nominal = 0:0.5:25; % Wind speed bins from 0 to 25 m/s in 0.5 m/s steps
-figure(99)
-plot(wind_speed_nominal, P_out);
-grid on
-xlabel('Wind Speed (m/s)');
-ylabel('Power (kW)');
-title('Power Curve Vestas V117-4.0 MW');
+%figure(99)
+%plot(wind_speed_nominal, P_out);
+%grid on
+%xlabel('Wind Speed (m/s)');
+%ylabel('Power (kW)');
+%title('Power Curve Vestas V117-4.0 MW');
 
 %% Process Real-Time Wind Speed Data
+T = readtable('wind speed.xlsx','Range','A:A');
+First_column = T{:,1};
+WS1=First_column;
 WS_h = (WS1(1:2:end) + WS1(2:2:end)) / 2; % Half-hourly average
 WS_mapped = round(WS_h * 2) / 2; % Round to nearest 0.5 m/s
 WS_mapped(WS_mapped > max(wind_speed_nominal)) = 0; % Clip to max nominal range
 
 %% Time Series Setup
-year_selected = 2020;
+year_selected = 2022;
 start_time = datetime(year_selected, 1, 1, 0, 0, 0);
 end_time = datetime(year_selected, 12, 31, 23, 0, 0);
 timeseries1 = start_time:hours(1):end_time;
 
 %% Power Generation Calculation
+Y= readtable('wind speed.xlsx','Range','F2:F52');
+Power_column = Y{:,1};
+P_out=Power_column ;%vector power of the wind turbine in fuction of the wind speed
 P_generated = interp1(wind_speed_nominal, P_out, WS_mapped, 'linear', 0); % kW
 Ur = (P_generated / max(P_generated))*100; % Utilization rate (normalized)
 
@@ -52,10 +57,10 @@ eta_perc=eta./100;
 
 P_PEM_kW = max(P_farm); % Sizing PEM system by peak power (kW)
 m_hydrogen = P_farm.*eta_perc./ kWh_per_kg_H2; % Hydrogen production (kg/h)
-m_H2required = (6481.3 * 1000 / 8764); % Required hydrogen flow (kg/h)
+m_H2required = (6481.3 * 1000 / 8760); % Required hydrogen flow (kg/h)
 
 %% Hydrogen Storage Reserve Initialization
-reserve = zeros(8784, 1);
+reserve = zeros(8760, 1);
 reserve(1) = 5000; % Initial H2 reserve in kg
 
 for t = 1:length(P_generated)
@@ -175,13 +180,13 @@ title('Fixed Costs Distribution');
 
 %% Revenue & LCOH
 oxygen_price = 150;
-oxygen_production = m_O2comprex * 8784 / 1000;
+oxygen_production = m_O2comprex * 8760 / 1000;
 REVENUE_oxygenY = oxygen_production * oxygen_price;
 
 r = 0.08;
 FCR = (r * (1 + r)^25) / ((1 + r)^25 - 1);
 LCOE_wf = (FCR * CAPEX_turb) / E_tot + OPEX;
-el_cost_pem = (LCOE_wf/1000)*(mean(eta_perc)/kWh_per_kg_H2)*((sum(m_hydrogen)*8784));% eur/y cost of electricity for the production of hydrogen%LCOE_wf * sum(P_farm) / 1000;
+el_cost_pem = (LCOE_wf/1000)*(mean(eta_perc)/kWh_per_kg_H2)*((sum(m_hydrogen)*8760));% eur/y cost of electricity for the production of hydrogen%LCOE_wf * sum(P_farm) / 1000;
 I0 = (ammonia_loop + Comprex_system_cost + Cost_PEM_scaled + N2_plant_cost + wind_farm + Hydrogen_stroage_cost) / 1000;
 fixedOM = 0.03 * (I0-wind_farm) + OPEX;
 E_c_tot = 1.5352e+07 - (404.6583 * 8760) + sum(P_O2comp * 8760);
