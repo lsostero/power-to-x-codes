@@ -9,6 +9,9 @@ year_selected = 2023;
 start_time = datetime(year_selected, 1, 1, 0, 0, 0); %  (1 jen alle 00:00)
 end_time = datetime(year_selected, 12, 31, 23, 0, 0); % (31 Dic alle 23:00)
 timeseries = start_time:hours(1):end_time; % Vettore di timestamp con intervalli di un'ora
+T = readtable('DAM.xlsx','Range','C:C');
+third_column = T{:,1};
+el_dailycost=third_column;
 prices =[el_dailycost];  % daily prices
 
 
