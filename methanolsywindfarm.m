@@ -1,13 +1,16 @@
 %% Wind Speed Nominal Interval Definition
 wind_speed_nominal = 0:0.5:25; % Wind speed bins from 0 to 25 m/s in 0.5 m/s steps
-figure(99)
-plot(wind_speed_nominal, P_out);
-grid on
-xlabel('Wind Speed (m/s)');
-ylabel('Power (kW)');
-title('Power Curve Vestas V117-4.0 MW');
+%figure(99)
+%plot(wind_speed_nominal, P_out);
+%grid on
+%xlabel('Wind Speed (m/s)');
+%ylabel('Power (kW)');
+%title('Power Curve Vestas V117-4.0 MW');
 
 %% Process Real-Time Wind Speed Data
+T = readtable('wind speed.xlsx','Range','A:A');
+First_column = T{:,1};
+WS1=First_column;%
 WS_h = (WS1(1:2:end) + WS1(2:2:end)) / 2; % Half-hourly average
 WS_mapped = round(WS_h * 2) / 2; % Round to nearest 0.5 m/s
 WS_mapped(WS_mapped > max(wind_speed_nominal)) = 0; % Clip to max nominal range
@@ -19,6 +22,9 @@ end_time = datetime(year_selected, 12, 31, 23, 0, 0);
 timeseries1 = start_time:hours(1):end_time;
 
 %% Power Generation Calculation
+Y= readtable('wind speed.xlsx','Range','F2:F52');
+Power_column = Y{:,1};
+P_out=Power_column ;%vector power of the wind turbine in fuction of the wind speed
 P_generated = interp1(wind_speed_nominal, P_out, WS_mapped, 'linear', 0); % kW
 Ur = (P_generated / max(P_generated))*100; % Utilization rate (normalized)
 
