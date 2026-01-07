@@ -1,14 +1,35 @@
-The .m files are MATLAB files that simulate the process of a power-to-methanol/ammonia chain.
-Some scripts require importing datasets into MATLAB. All data must be imported as column vectors.
+Repository Description
 
-Engine simulations
+This repository contains a set of MATLAB models for the techno-economic analysis (TEA) of Power-to-X pathways, with a focus on Power-to-Ammonia and Power-to-Methanol systems.
+The code describes the full value chain, from renewable electricity generation to e-fuel production and final use in internal combustion engines.
 
-To start the engine simulations, import the electricity price from the file "X ECONOMIC ANALYSIS" by taking the last column on the right and loading it as a column vector. Then, you can run the simulations. The fuel price can be adjusted manually in the code.
+Code Structure and Scope
+1. E-fuel synthesis models
+Core models for techno-economic analysis of synthetic fuel production:
+ammoniasynthesis.m:Techno-economic model of green ammonia synthesis (Power-to-Ammonia).
+methanolsythesis.m:Techno-economic model of methanol synthesis (Power-to-Methanol).
 
-Synthesis simulation
+2. Fully renewable scenarios (wind-based systems)
+Development of 100% renewable scenarios based on wind power as the primary energy source, including different storage and system integration strategies:
+methanolsywindfarm.m: Wind-powered e-methanol production with system sizing and techno-economic evaluation.
+greenammonia_windplushydrogenstorage.m: Wind-based green ammonia production including hydrogen storage to handle intermittency.
 
-These files use the same data import method as the engine simulations.
+battery.m
+Advanced green ammonia scenario with:
+wind power
+electrolysis
+hydrogen storage
+battery park
+Includes integrated techno-economic analysis of the full system.
 
-File: BATTERY, WINDPLUS HYDROGEN STORAGE
+3. End-use: internal combustion engines fueled by e-fuels
+Techno-economic and performance analysis of internal combustion engines (ICEs) operating on synthetic fuels:
+methanolengine1.m: Techno-economic analysis of a methanol-fueled internal combustion engine.
+ammoniaengine.m: Techno-economic analysis of an ammonia-fueled internal combustion engine.
 
-The wind velocity (half-hourly basis) and wind turbine power must be imported as column vectors from the file "wind speed".
+Purpose
+The repository enables:
+end-to-end techno-economic assessment of Power-to-Ammonia and Power-to-Methanol pathways;
+evaluation of wind-based, fully renewable e-fuel production systems;
+analysis of the impact of hydrogen storage and batteries on system cost and performance;
+linkage between fuel production TEA and final energy conversion in ICEs.
