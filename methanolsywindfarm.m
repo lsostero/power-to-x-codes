@@ -13,7 +13,7 @@ WS_mapped = round(WS_h * 2) / 2; % Round to nearest 0.5 m/s
 WS_mapped(WS_mapped > max(wind_speed_nominal)) = 0; % Clip to max nominal range
 
 %% Time Series Setup
-year_selected = 2020;
+year_selected = 2022;
 start_time = datetime(year_selected, 1, 1, 0, 0, 0);
 end_time = datetime(year_selected, 12, 31, 23, 0, 0);
 timeseries1 = start_time:hours(1):end_time;
@@ -51,7 +51,7 @@ m_hydrogen = P_farm.*eta_perc./ kWh_per_kg_H2; % Hydrogen production (kg/h)
 m_H2required = 107.7420; % Required hydrogen flow (kg/h)
 
 %% Hydrogen Storage Reserve Initialization
-reserve = zeros(8784, 1);
+reserve = zeros(8760, 1);
 reserve(1) = 5000; % Initial H2 reserve in kg
 
 for t = 1:length(P_generated)
@@ -81,7 +81,7 @@ else
 end
 
 H_history = sum(H_total);
-cf = E_tot_cf / (8784 * optimal_turbines * 4);
+cf = E_tot_cf / (8760 * optimal_turbines * 4);
 fprintf('The capacity factor of the plant is: %.2f \n', cf);
 
 %% Plot Hydrogen Reserve and Production
@@ -172,13 +172,13 @@ title('Fixed Costs Distribution');
 
 %% Revenue & LCOH
 oxygen_price = 150;
-oxygen_production = m_O2comprex * 8784 / 1000;
+oxygen_production = m_O2comprex * 8760 / 1000;
 REVENUE_oxygenY = oxygen_production * oxygen_price;
 
 r = 0.08;
 FCR = (r * (1 + r)^25) / ((1 + r)^25 - 1);
 LCOE_wf = (FCR * CAPEX_turb) / E_tot + OPEX;
-el_cost_pem = (LCOE_wf/1000)*(mean(eta_perc)/kWh_per_kg_H2)*((sum(m_hydrogen)*8784));% eur/y cost of electricity for the production of hydrogen%LCOE_wf * sum(P_farm) / 1000;
+el_cost_pem = (LCOE_wf/1000)*(mean(eta_perc)/kWh_per_kg_H2)*((sum(m_hydrogen)*8760));% eur/y cost of electricity for the production of hydrogen%LCOE_wf * sum(P_farm) / 1000;
 I0 = ( Comprex_system_cost + Cost_PEM_scaled + MEOH_plant_cost + wind_farm + Hydrogen_stroage_cost+CO2_PLANT) / 1000;
 fixedOM = 0.03 * (I0-wind_farm) + OPEX;
 E_c_tot = 1.5352e+07 - (404.6583 * 8760) + sum(P_O2comp * 8760);
