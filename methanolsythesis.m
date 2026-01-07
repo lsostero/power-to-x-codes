@@ -162,8 +162,11 @@ title('fixed cost analysis');
 %grid on
 %%
 %% OPEX
-%electricity_cost=mean(el_dailycost);%eur/MWh
-electricity_cost=121.9;%eur/MWh
+T = readtable('DAM.xlsx','Range','C:C');
+third_column = T{:,1};
+el_dailycost=third_column;
+electricity_cost=mean(el_dailycost);%eur/MWh
+%electricity_cost=121.9;%eur/MWh
 %electricity_cost=90.95;%eur/mwh third simulation value, intermidiate between 60 and average
 %electricity_cost=60;% historical data 4th simulation
 el_cost_pem=(electricity_cost/1000)*(PEM_cons)*(m_H2*1000);% eur/y cost of electricity for the production of hydrogen
