@@ -5,16 +5,19 @@ The code describes the full value chain, from renewable electricity generation t
 
 Code Structure and Scope
 1. E-fuel synthesis models
+
 Core models for techno-economic analysis of synthetic fuel production:
 ammoniasynthesis.m:Techno-economic model of green ammonia synthesis (Power-to-Ammonia).
 methanolsythesis.m:Techno-economic model of methanol synthesis (Power-to-Methanol).
 
 2. Fully renewable scenarios (wind-based systems)
+
 Development of 100% renewable scenarios based on wind power as the primary energy source, including different storage and system integration strategies:
 methanolsywindfarm.m: Wind-powered e-methanol production with system sizing and techno-economic evaluation.
 greenammonia_windplushydrogenstorage.m: Wind-based green ammonia production including hydrogen storage to handle intermittency.
 
 battery.m
+
 Advanced green ammonia scenario with:
 wind power
 electrolysis
@@ -23,6 +26,7 @@ battery park
 Includes integrated techno-economic analysis of the full system.
 
 3. End-use: internal combustion engines fueled by e-fuels
+
 Techno-economic and performance analysis of internal combustion engines (ICEs) operating on synthetic fuels:
 methanolengine1.m: Techno-economic analysis of a methanol-fueled internal combustion engine.
 ammoniaengine.m: Techno-economic analysis of an ammonia-fueled internal combustion engine.
